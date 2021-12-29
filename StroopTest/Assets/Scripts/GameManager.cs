@@ -6,39 +6,65 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI tmp;
-    private Test test;
+    public StroopTest test;
+    public int currentItem = 0;
 
-    private void Awake()
-    {
-        test = FindObjectOfType<Test>();
+    public float startCountdown = 4;
 
-        if (test == null)
-        {
-            test = new Test();
-        }
-
-        tmp = GameObject.FindGameObjectWithTag("Display").GetComponent<TextMeshProUGUI>();
-    }
+    public bool answered = true;
+    public bool endGame = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(test == null)
+        {
+            test = GameObject.FindObjectOfType<StroopTest>();
+            tmp = GameObject.FindGameObjectWithTag("Display").GetComponent<TextMeshProUGUI>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        StroopItem si = new StroopItem();
-        si.GenerateRandom();
-        tmp.text = si.text;
-        tmp.color = si.GetColour();
-        //UpdateText();
+        if(!endGame)
+        {
+            if (startCountdown > 0)
+            {
+                startCountdown -= Time.deltaTime;
+                int second = (int)startCountdown;
+                tmp.text = second.ToString();
+            }
+            else if (answered)
+            {
+                if (!CheckFinished())
+                {
+                    test.timing = true;
+                    answered = false;
+                    StroopItem si = test.testElements[currentItem];
+                    tmp.text = si.text;
+                    tmp.color = si.GetColour();
+                    currentItem += 1;
+                }
+            }
+        } else
+        {
+            CheckFinished();
+            //Throw Game Over Screen.
+        } 
     }
 
-    void UpdateText()
+    bool CheckFinished()
     {
-        tmp.text = test.testElements[0].text;
-        tmp.color = test.testElements[0].GetColour();
+        if(currentItem >= test.num)
+        {
+            foreach(StroopItem si in test.testElements)
+            {
+                Debug.Log("Word: " + si.text + ", Time: " + si.viewTime.ToString() + ", Correct: " + si.correct);
+            }
+            endGame = true;
+            return true;
+        }
+        return false;
     }
 }

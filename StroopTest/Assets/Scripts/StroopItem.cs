@@ -3,17 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class StroopItem : MonoBehaviour
 {
     public enum VisualColour {red, blue, yellow, pink};
     public VisualColour visCol;
 
     public string text;
-    private string[] namesColour = {"red", "blue", "yellow", "pink"};
+    private string[] namesColour = {"RED", "BLUE", "YELLOW", "PINK"};
 
     public float viewTime;
     public bool correct = false;
+
+    public StroopItem()
+    {
+        GenerateRandom();
+    }
 
     /// <summary>
     /// 
