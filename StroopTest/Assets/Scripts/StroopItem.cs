@@ -47,4 +47,20 @@ public class StroopItem : MonoBehaviour
                 return Color.black; //if text is black need to debug
         }
     }
+
+    public string ColourText()
+    {
+        switch (visCol)
+        {
+            case VisualColour.red:
+                return "RED";
+            case VisualColour.blue:
+                return "BLUE";
+            case VisualColour.yellow:
+                return "YELLOW";
+            case VisualColour.pink:
+                return "PINK";
+        }
+        return "";
+    }
 }

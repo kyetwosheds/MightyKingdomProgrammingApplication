@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class ButtonManager : MonoBehaviour
             gm.endGame = true;
         }
         string name = EventSystem.current.currentSelectedGameObject.name;
-        if(name == gm.test.testElements[gm.currentItem - 1].text && gm.currentItem - 1 < gm.test.num)
+        if(name == gm.test.testElements[gm.currentItem - 1].ColourText() && gm.currentItem - 1 < gm.test.num)
         {
             gm.test.testElements[gm.currentItem - 1].correct = true;
         }
@@ -30,5 +31,15 @@ public class ButtonManager : MonoBehaviour
             gm.endGame = true;
         else 
             gm.answered = true;
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene("Game");
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

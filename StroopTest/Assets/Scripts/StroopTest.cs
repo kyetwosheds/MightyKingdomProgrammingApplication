@@ -58,17 +58,32 @@ public class StroopTest : MonoBehaviour
             //calculate scores.
             int correct = 0;
             float totalTime = 0;
+            float bestTime = 300; //if the player exceeds 300 seconds (5 minutes) it will be capped at 300.
+            float worstTime = 0;
+
             foreach(StroopItem si in testElements)
             {
                 if (si.correct)
+                {
                     correct += 1;
+
+                    if (si.viewTime < bestTime)
+                        bestTime = si.viewTime; //only includes times from correct answers. 
+                }
+
+                if (si.viewTime > worstTime)
+                    worstTime = si.viewTime;
 
                 totalTime += si.viewTime;
             }
 
+            Debug.Log("Correct Answers: " + correct);
+
             finalScore.numCorrect = correct;
             finalScore.totalTime = totalTime;
-            finalScore.scorePercent = 10 * ((num - correct) / num);
+            finalScore.bestTime = bestTime;
+            finalScore.worstTime = worstTime;
+            finalScore.scorePercent = (100f * ((float)correct / (float)num)) - totalTime;
             finalScore.calculated = true;
         }
     }

@@ -14,10 +14,21 @@ public class GameManager : MonoBehaviour
     public bool answered = true;
     public bool endGame = false;
 
+    public GameObject gameScreen;
+    public GameObject resultsScreen;
+
+    private void Awake()
+    {
+        gameScreen = GameObject.Find("GameScreen");
+        resultsScreen = GameObject.Find("ResultsScreen");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        if(test == null)
+        resultsScreen.SetActive(false);
+        gameScreen.SetActive(true);
+        if (test == null)
         {
             test = GameObject.FindObjectOfType<StroopTest>();
             tmp = GameObject.FindGameObjectWithTag("Display").GetComponent<TextMeshProUGUI>();
@@ -51,6 +62,18 @@ public class GameManager : MonoBehaviour
         {
             CheckFinished();
             //Throw Game Over Screen.
+            if(test.finalScore.calculated)
+            {
+                resultsScreen.SetActive(true);
+                gameScreen.SetActive(false);
+
+                //Display Statistics
+                var scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>().text = "SCORE: " + test.finalScore.scorePercent.ToString("0.00") + "%";
+                var totalTimeText = GameObject.Find("timeNumber").GetComponent<TextMeshProUGUI>().text = test.finalScore.totalTime.ToString("0.00") + "s";
+                var successText = GameObject.Find("successText").GetComponent<TextMeshProUGUI>().text = test.finalScore.numCorrect + "/" + test.num;
+                var bestText = GameObject.Find("bestTime").GetComponent<TextMeshProUGUI>().text = test.finalScore.bestTime.ToString("0.00") + "s";
+                var worstText = GameObject.Find("worstTime").GetComponent<TextMeshProUGUI>().text = test.finalScore.worstTime.ToString("0.00") + "s";
+            }
         } 
     }
 
