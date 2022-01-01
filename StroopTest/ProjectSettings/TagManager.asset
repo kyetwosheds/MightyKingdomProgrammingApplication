@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Display
   - Timer
+  - Input
   layers:
   - Default
   - TransparentFX

@@ -16,18 +16,23 @@ public class GameManager : MonoBehaviour
 
     public GameObject gameScreen;
     public GameObject resultsScreen;
+    public GameObject buttonDisplay;
 
     private void Awake()
     {
+        //Setup canvas objects to use later.
         gameScreen = GameObject.Find("GameScreen");
         resultsScreen = GameObject.Find("ResultsScreen");
+        buttonDisplay = GameObject.FindGameObjectWithTag("Input");
     }
 
-    // Start is called before the first frame update
     void Start()
     {
+        //Display game screen
         resultsScreen.SetActive(false);
         gameScreen.SetActive(true);
+
+        //Create test with finie number of stroop items
         if (test == null)
         {
             test = GameObject.FindObjectOfType<StroopTest>();
@@ -35,21 +40,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(!endGame)
+        if(!endGame) 
         {
+            //displays the countdown before the test starts.
             if (startCountdown > 0)
             {
+                buttonDisplay.SetActive(false); //remove buttons to prevent answering before the test starts.
                 startCountdown -= Time.deltaTime;
                 int second = (int)startCountdown;
                 tmp.text = second.ToString();
-            }
-            else if (answered)
+            }  
+            else if (answered) // checks if we are waiting for input from the user.
             {
-                if (!CheckFinished())
+                buttonDisplay.SetActive(true);
+                if (!CheckFinished()) //Checks if we have finished the test
                 {
+                    //setup and display next stroop item.
                     test.timing = true;
                     answered = false;
                     StroopItem si = test.testElements[currentItem];

@@ -20,7 +20,7 @@ public class StroopItem : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Creates a Stroop Item with random colour name and display.
     /// </summary>
     public void GenerateRandom()
     {
@@ -31,6 +31,10 @@ public class StroopItem : MonoBehaviour
         text = namesColour[UnityEngine.Random.Range(0, namesColour.Length)];
     }
 
+    /// <summary>
+    /// Converts the Visual Colour enum into colours unity can use.
+    /// </summary>
+    /// <returns>colour to display in text mesh pro</returns>
     public Color GetColour()
     {
         switch (visCol)
@@ -48,6 +52,10 @@ public class StroopItem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the display colour as a string for comparion with answers.
+    /// </summary>
+    /// <returns>colour name as a string</returns>
     public string ColourText()
     {
         switch (visCol)
